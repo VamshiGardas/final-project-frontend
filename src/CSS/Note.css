@@ -1,0 +1,81 @@
+.note {
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 0 2px 5px #ccc;
+  padding: 10px;
+  width: calc(25% - 32px);
+  margin: 16px;
+  float: right;
+  background-color: yellow;
+  box-sizing: border-box;
+}
+
+.note h1 {
+  font-size: 1.1em;
+  margin-bottom: 6px;
+  color: blue;
+  font-weight: bold;
+}
+
+.note p {
+  font-size: 1.1em;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: black;
+  font-weight: bold;
+}
+
+.note button {
+  color: #fff;
+  border: none;
+  padding: 0.5em 1em;
+  background-color: #f28b82;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: none;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+  align-self: flex-end; /* Align button to the right of the flex container */
+  margin-top: auto; /* Push the button to the bottom */
+}
+
+.note button:hover {
+  background-color: #d77375;
+}
+
+/* Tablet devices (768px and up to 992px) */
+@media (min-width: 768px) and (max-width: 992px) {
+  .note {
+    width: calc(33.333% - 32px);
+  }
+}
+
+/* Small devices (576px and up to 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+  .note {
+    width: calc(50% - 32px);
+  }
+}
+
+/* Extra small devices (up to 575px) */
+@media (max-width: 575px) {
+  .note {
+    padding: 15px;
+    margin: 10px 0;
+    width: 100%;
+  }
+
+  .note h1 {
+    font-size: 1.2em;
+  }
+
+  .note p {
+    font-size: 1em;
+  }
+
+  .note button {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+}
