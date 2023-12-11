@@ -1,18 +1,19 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-require("dotenv").config();
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth"; // Import additional methods for authentication
 
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
-  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
+  apiKey: "AIzaSyBdNODeIRi35RZgaVEhyCAaXw5iEWMguao",
+  authDomain: "notes-app-8b60b.firebaseapp.com",
+  projectId: "notes-app-8b60b",
+  storageBucket: "notes-app-8b60b.appspot.com",
+  messagingSenderId: "469534609265",
+  appId: "1:469534609265:web:255a54f518609adacc30d0",
+  measurementId: "G-XZLJ4RK12T",
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+const auth = getAuth(app); // Initialize auth
 
-export { auth, GoogleAuthProvider, signInWithPopup };
+export { auth, GoogleAuthProvider, signInWithPopup }; // Export the auth object along with GoogleAuthProvider and signInWithPopup
