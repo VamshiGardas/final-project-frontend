@@ -14,8 +14,7 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   // Update the base URL to match your Railway backend deployment
-  const BASE_URL = "friendly-table-production.up.railway.app"; // Replace with your Railway backend URL
-
+  const BASE_URL = "https://friendly-table-production.up.railway.app"; // Replace with your Railway backend URL
   useEffect(() => {
     const isGuestLoggedIn = localStorage.getItem("isGuestLoggedIn") === "true";
     if (isGuestLoggedIn) {
