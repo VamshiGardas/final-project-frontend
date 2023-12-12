@@ -22,7 +22,7 @@ function App() {
 
     // Fetch notes from the backend
     axios
-      .get("https://final-porject-backend-production.up.railway.app/notes")
+      .get("http://localhost:5000/notes")
       .then((response) => {
         setNotes(response.data);
       })
@@ -45,10 +45,7 @@ function App() {
 
   function addNote(newNote) {
     axios
-      .post(
-        "https://final-porject-backend-production.up.railway.app/notes",
-        newNote
-      )
+      .post("http://localhost:5000/notes", newNote)
       .then((response) => {
         setNotes((prevNotes) => [...prevNotes, response.data]);
       })
@@ -57,9 +54,7 @@ function App() {
 
   function deleteNote(id) {
     axios
-      .delete(
-        `https://final-porject-backend-production.up.railway.app/notes/${id}`
-      )
+      .delete(`http://localhost:5000/notes/${id}`)
       .then(() => {
         setNotes((prevNotes) => prevNotes.filter((note) => note._id !== id));
       })
