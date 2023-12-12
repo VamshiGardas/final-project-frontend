@@ -1,51 +1,50 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { auth } from "../firebaseconfig"; // Import Firebase auth
+import { auth } from "../firebaseconfig";
 import Header from "./Header";
 import Footer from "./Footer";
 import Note from "./Note";
 import CreateArea from "./CreateArea";
-import Home from "./Home"; // Import the new Home component
+import Home from "./Home";
 import "../CSS/App.css";
 
 function App() {
   const [noteArray, setNotes] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // State for login status
-  const [loading, setLoading] = useState(true); // New state for loading
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  // Update the base URL to match your Railway backend deployment
+  const BASE_URL = "https://your-railway-backend-url"; // Replace with your Railway backend URL
 
   useEffect(() => {
-    // Check if the user is logged in as a guest
     const isGuestLoggedIn = localStorage.getItem("isGuestLoggedIn") === "true";
     if (isGuestLoggedIn) {
       setIsLoggedIn(true);
     }
 
-    // Fetch notes from the backend
     axios
-      .get("http://localhost:5000/notes")
+      .get(`${BASE_URL}/notes`)
       .then((response) => {
         setNotes(response.data);
       })
       .catch((error) => console.error("Error:", error));
 
-    // Subscribe to Firebase auth state changes
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setIsLoggedIn(true);
-        localStorage.removeItem("isGuestLoggedIn"); // Remove guest flag if logged in with Firebase
+        localStorage.removeItem("isGuestLoggedIn");
       } else if (!isGuestLoggedIn) {
         setIsLoggedIn(false);
       }
-      setLoading(false); // Set loading to false after auth state is determined
+      setLoading(false);
     });
 
-    // Clean up the subscription
     return () => unsubscribe();
   }, []);
 
   function addNote(newNote) {
     axios
-      .post("http://localhost:5000/notes", newNote)
+      .post(`${BASE_URL}/notes`, newNote)
       .then((response) => {
         setNotes((prevNotes) => [...prevNotes, response.data]);
       })
@@ -54,7 +53,7 @@ function App() {
 
   function deleteNote(id) {
     axios
-      .delete(`http://localhost:5000/notes/${id}`)
+      .delete(`${BASE_URL}/notes/${id}`)
       .then(() => {
         setNotes((prevNotes) => prevNotes.filter((note) => note._id !== id));
       })
@@ -63,16 +62,16 @@ function App() {
 
   function handleGuestAccess() {
     setIsLoggedIn(true);
-    localStorage.setItem("isGuestLoggedIn", "true"); // Set a flag in localStorage
+    localStorage.setItem("isGuestLoggedIn", "true");
   }
 
   function handleLogout() {
     setIsLoggedIn(false);
-    localStorage.removeItem("isGuestLoggedIn"); // Clear the guest flag from localStorage
+    localStorage.removeItem("isGuestLoggedIn");
   }
 
   if (loading) {
-    return <div>Loading...</div>; // Display loading message while waiting for auth state
+    return <div>Loading...</div>;
   }
 
   return (
