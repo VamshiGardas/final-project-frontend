@@ -15,7 +15,7 @@ function App() {
   const [noteArray, setNotes] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); // Added error state for better error handling
+  const [error, setError] = useState(null); // Error state for error handling
 
   useEffect(() => {
     const isGuestLoggedIn = localStorage.getItem("isGuestLoggedIn") === "true";
@@ -86,6 +86,7 @@ function App() {
 
   return (
     <div className="app-container">
+      {error && <div className="error-message">Error: {error.message}</div>}
       {isLoggedIn ? (
         <>
           <Header />
