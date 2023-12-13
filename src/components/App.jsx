@@ -8,14 +8,14 @@ import CreateArea from "./CreateArea";
 import Home from "./Home";
 import "../CSS/App.css";
 
+// Local backend URL
+const backendUrl = "http://localhost:5000";
+
 function App() {
   const [noteArray, setNotes] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); // Added error state
-
-  // Update the base URL to match your Railway backend deployment
-  const BASE_URL = "https://friendly-table-production.up.railway.app"; // Replace with your Railway backend URL
+  const [error, setError] = useState(null); // Added error state for better error handling
 
   useEffect(() => {
     const isGuestLoggedIn = localStorage.getItem("isGuestLoggedIn") === "true";
@@ -24,7 +24,7 @@ function App() {
     }
 
     axios
-      .get(`${BASE_URL}/notes`)
+      .get(`${backendUrl}/notes`)
       .then((response) => {
         setNotes(response.data);
       })
@@ -32,9 +32,7 @@ function App() {
         console.error("Error:", error);
         setError(error); // Update error state
       })
-      .finally(() => {
-        setLoading(false); // Update loading state
-      });
+      .finally(() => setLoading(false));
 
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -46,11 +44,11 @@ function App() {
     });
 
     return () => unsubscribe();
-  }, []); // Ensure this runs only once
+  }, []);
 
   function addNote(newNote) {
     axios
-      .post(`${BASE_URL}/notes`, newNote)
+      .post(`${backendUrl}/notes`, newNote)
       .then((response) => {
         setNotes((prevNotes) => [...prevNotes, response.data]);
       })
@@ -62,7 +60,7 @@ function App() {
 
   function deleteNote(id) {
     axios
-      .delete(`${BASE_URL}/notes/${id}`)
+      .delete(`${backendUrl}/notes/${id}`)
       .then(() => {
         setNotes((prevNotes) => prevNotes.filter((note) => note._id !== id));
       })
@@ -82,36 +80,34 @@ function App() {
     localStorage.removeItem("isGuestLoggedIn");
   }
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <div className="app">
-      <Header
-        isLoggedIn={isLoggedIn}
-        handleLogout={handleLogout}
-        handleGuestAccess={handleGuestAccess}
-      />
+    <div className="app-container">
       {isLoggedIn ? (
-        <div>
-          <CreateArea onAdd={addNote} />
-          {loading ? (
-            <p>Loading notes...</p> // Loading indicator
-          ) : error ? (
-            <p>Error fetching notes. Please try again later.</p> // Error message
-          ) : (
-            noteArray.map((noteItem, index) => (
+        <>
+          <Header />
+          <CreateArea onAdd={addNote} onLogout={handleLogout} />
+          <div className="notes-section">
+            {noteArray.map((note, index) => (
               <Note
                 key={index}
-                id={noteItem._id}
-                title={noteItem.title}
-                content={noteItem.content}
-                onDelete={deleteNote}
+                id={index}
+                title={note.title}
+                content={note.content}
+                font={note.font}
+                color={note.color}
+                onDelete={() => deleteNote(note._id)}
               />
-            ))
-          )}
-        </div>
+            ))}
+          </div>
+          <Footer />
+        </>
       ) : (
-        <Home />
+        <Home onGuestAccess={handleGuestAccess} />
       )}
-      <Footer />
     </div>
   );
 }
