@@ -9,7 +9,7 @@ import Home from "./Home";
 import "../CSS/App.css";
 
 // Local backend URL
-const backendUrl = "backend_url_railway.app";
+const backendUrl = "final-porject-backend-production.up.railway.app";
 
 function App() {
   const [noteArray, setNotes] = useState([]);
