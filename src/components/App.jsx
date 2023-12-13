@@ -8,14 +8,14 @@ import CreateArea from "./CreateArea";
 import Home from "./Home";
 import "../CSS/App.css";
 
-// Local backend URL
-const backendUrl = "final-porject-backend-production.up.railway.app";
+// Full backend URL with https://
+const backendUrl = "https://final-porject-backend-production.up.railway.app";
 
 function App() {
   const [noteArray, setNotes] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); // Error state for error handling
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const isGuestLoggedIn = localStorage.getItem("isGuestLoggedIn") === "true";
@@ -30,7 +30,7 @@ function App() {
       })
       .catch((error) => {
         console.error("Error:", error);
-        setError(error); // Update error state
+        setError(error);
       })
       .finally(() => setLoading(false));
 
@@ -54,7 +54,7 @@ function App() {
       })
       .catch((error) => {
         console.error("Error:", error);
-        setError(error); // Update error state
+        setError(error);
       });
   }
 
@@ -66,7 +66,7 @@ function App() {
       })
       .catch((error) => {
         console.error("Error:", error);
-        setError(error); // Update error state
+        setError(error);
       });
   }
 
