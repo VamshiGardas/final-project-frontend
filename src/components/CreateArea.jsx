@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; //Importing a useState hook and react to enable jsx syntax
 import { auth } from "../firebaseconfig"; // Import Firebase auth
 import "../CSS/CreateArea.css"; // imports css styles
 
+//State to keep track of the note's details (title, content, font, color)
 function CreateArea(props) {
   const [note, setNote] = useState({
     title: "",
@@ -10,6 +11,7 @@ function CreateArea(props) {
     color: "black",
   });
 
+  // Handler for input changes, updates the note state
   function handleChange(event) {
     const { name, value } = event.target;
     setNote((prevNote) => {
@@ -20,6 +22,7 @@ function CreateArea(props) {
     });
   }
 
+  // Handler for submitting the note
   function submitNote(event) {
     props.onAdd(note);
     setNote({
@@ -27,10 +30,11 @@ function CreateArea(props) {
       content: "",
       font: "Arial",
       color: "black",
-    });
-    event.preventDefault();
+    }); // Resets the note state to default after submission
+    event.preventDefault(); // Prevents the default form submission behavior
   }
 
+  // Handler for user logout
   function handleLogout() {
     auth.signOut().then(() => {
       // Call a function passed via props to handle post-logout behavior (like updating state in App.jsx)
@@ -40,6 +44,7 @@ function CreateArea(props) {
     });
   }
 
+  // JSX for the component's UI
   return (
     <div>
       <form>
@@ -78,4 +83,4 @@ function CreateArea(props) {
   );
 }
 
-export default CreateArea;
+export default CreateArea; // exporting CreateArea component

@@ -1,28 +1,30 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { auth } from "../firebaseconfig";
-import Header from "./Header";
-import Footer from "./Footer";
-import Note from "./Note";
-import CreateArea from "./CreateArea";
-import Home from "./Home";
-import "../CSS/App.css";
+import React, { useState, useEffect } from "react"; //importing react,usestate and useEffect from react
+import axios from "axios"; // importing axios to make http requests
+import { auth } from "../firebaseconfig"; // importing firebaseconfig file to setup signin with google
+import Header from "./Header"; // importing header component
+import Footer from "./Footer"; // importing footer component
+import Note from "./Note"; // importing footer component
+import CreateArea from "./CreateArea"; // importing createArea component
+import Home from "./Home"; // importing Home component(intial page)
+import "../CSS/App.css"; // importing css styles
 
-// Local backend URL
+// Deployed backend URL from railway platform
 const backendUrl = "https://final-porject-backend-production.up.railway.app";
 
+// State for storing notes, user login status, loading status, and errors
 function App() {
   const [noteArray, setNotes] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null); // Error state for error handling
 
+  // check and set login status
   useEffect(() => {
     const isGuestLoggedIn = localStorage.getItem("isGuestLoggedIn") === "true";
     if (isGuestLoggedIn) {
       setIsLoggedIn(true);
     }
-
+    // fetch notes from backend(railway)
     axios
       .get(`${backendUrl}/notes`)
       .then((response) => {
@@ -30,10 +32,10 @@ function App() {
       })
       .catch((error) => {
         console.error("Error:", error);
-        setError(error); // Update error state
+        setError(error); //  error state
       })
       .finally(() => setLoading(false));
-
+    // Set up Firebase authentication listener
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setIsLoggedIn(true);
@@ -43,9 +45,11 @@ function App() {
       }
     });
 
+    // Clean up the authentication listener on component unmount
     return () => unsubscribe();
   }, []);
 
+  // add a new note
   function addNote(newNote) {
     axios
       .post(`${backendUrl}/notes`, newNote)
@@ -54,10 +58,11 @@ function App() {
       })
       .catch((error) => {
         console.error("Error:", error);
-        setError(error); // Update error state
+        setError(error); //  error state
       });
   }
 
+  // delete a note
   function deleteNote(id) {
     axios
       .delete(`${backendUrl}/notes/${id}`)
@@ -66,24 +71,26 @@ function App() {
       })
       .catch((error) => {
         console.error("Error:", error);
-        setError(error); // Update error state
+        setError(error); //  error state
       });
   }
 
+  // handle guest access
   function handleGuestAccess() {
     setIsLoggedIn(true);
     localStorage.setItem("isGuestLoggedIn", "true");
   }
-
+  // handle user logout
   function handleLogout() {
     setIsLoggedIn(false);
     localStorage.removeItem("isGuestLoggedIn");
   }
-
+  // render loading state
   if (loading) {
     return <div>Loading...</div>;
   }
 
+  // render main app UI
   return (
     <div className="app-container">
       {error && <div className="error-message">Error: {error.message}</div>}
@@ -113,4 +120,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; // exporting App component

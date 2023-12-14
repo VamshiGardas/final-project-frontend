@@ -1,10 +1,12 @@
-import React from "react";
-import { auth } from "../firebaseconfig";
+// This is set to intial page
+import React from "react"; // imports react to enable JSX syntax
+import { auth } from "../firebaseconfig"; // Imports firebase config
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"; // Import the necessary methods
-import Header from "./Header";
-import "../CSS/Home.css";
+import Header from "./Header"; // imports header component
+import "../CSS/Home.css"; // imports CSS styles
 
 function Home({ onGuestAccess }) {
+  // Function to handle sign-in with Google
   const signInWithGoogle = () => {
     const provider = new GoogleAuthProvider(); // Create a GoogleAuthProvider object
     signInWithPopup(auth, provider) // Use signInWithPopup method for authentication
@@ -15,7 +17,7 @@ function Home({ onGuestAccess }) {
         // Handle errors here
       });
   };
-
+  //JSX for Home component
   return (
     <div>
       <Header />
@@ -27,4 +29,4 @@ function Home({ onGuestAccess }) {
   );
 }
 
-export default Home;
+export default Home; // exporting Home component

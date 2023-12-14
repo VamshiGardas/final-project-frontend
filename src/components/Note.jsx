@@ -1,15 +1,18 @@
-import React from "react";
+import React from "react"; // imports react to enable JSX syntax
 import "../CSS/Note.css"; //imports css styles
 
 function Note(props) {
+  // Function to handle the delete button click
   function handleClick() {
-    props.onDelete(props.id);
+    props.onDelete(props.id); // Calls the onDelete function passed via props with the note's id
   }
 
+  // Dynamic styling for the text, using the font style passed in props
   const textStyle = {
-    fontFamily: props.font
+    fontFamily: props.font,
   };
 
+  //JSX for Note compoent
   return (
     <div className="note">
       <span className="note-id"> {props.id + 1} </span>
@@ -20,4 +23,4 @@ function Note(props) {
   );
 }
 
-export default Note;
+export default Note; // exporting Note component
